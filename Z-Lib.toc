@@ -1,0 +1,12 @@
+## Interface: 80205
+## Author: Zanges
+## Version: 1.0
+## Title: Z-Lib
+## Notes:
+## SavedVariables: Z-Lib_DB
+## SavedVariablesPerCharacter: Z-Lib_Character_DB
+
+
+Libraries\Load_Libraries.xml
+Main.lua
+Locales\Load_Locales.xml
