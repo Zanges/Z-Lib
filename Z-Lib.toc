@@ -1,4 +1,4 @@
-## Interface: 80205
+## Interface: 80300
 ## Author: Zanges
 ## Version: 1.0
 ## Title: Z-Lib
@@ -7,6 +7,14 @@
 ## SavedVariablesPerCharacter: Z-Lib_Character_DB
 
 
-Libraries\Load_Libraries.xml
-Main.lua
+embeds.xml
+
 Locales\Load_Locales.xml
+
+Main.lua
+
+Chatcommands.lua
+
+Utility\Debug.lua
+Utility\Media.lua
+Utility\AceHelper.lua
