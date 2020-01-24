@@ -1,4 +1,4 @@
-ZLib = LibStub("AceAddon-3.0"):NewAddon("Z-Lib", "AceConsole-3.0")
+ZLib = LibStub("AceAddon-3.0"):NewAddon("Z-Lib", "AceConsole-3.0", "AceTimer-3.0")
 local L = LibStub("AceLocale-3.0"):GetLocale("Z-Lib", true)
 
 

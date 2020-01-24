@@ -18,3 +18,4 @@ Chatcommands.lua
 Utility\Debug.lua
 Utility\Media.lua
 Utility\AceHelper.lua
+Utility\CombatLockdownHelper.lua
