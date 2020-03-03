@@ -5,6 +5,7 @@
 ## Notes:
 ## SavedVariables: Z-Lib_DB
 ## SavedVariablesPerCharacter: Z-Lib_Character_DB
+## X-oUF: Z-Lib-oUF
 
 
 embeds.xml
