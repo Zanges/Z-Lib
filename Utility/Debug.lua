@@ -5,7 +5,7 @@ local debugging = true
 
 
 --- Simple Debug function.
----@param text string @ Debug Msg
+--- @param text string @ Debug Msg
 function Lib:Debug(text)
     if debugging then
         print(text)
