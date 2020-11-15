@@ -5,15 +5,23 @@ local ExecuteAfterLockdownTimer
 --- @type table
 local ExecuteAfterLockdownRunList = {}
 
-function Lib:ExecuteSave(ID, Message, FunctionToRun, ...)
+function Lib:ExecuteSave(ID, Addon, Message, FunctionToRun, ...) -- addon is a ref to the calling adddon that embedds libsink and pourFunction is the embeddded :Pour
     if InCombatLockdown() then
-        Lib:ExecuteAfterLockdown(ID, Message, FunctionToRun, ...)
+        Lib:ExecuteAfterLockdown(ID, Addon, Message, FunctionToRun, ...)
     else
         FunctionToRun(...)
     end
 end
 
-function Lib:ExecuteAfterLockdown(ID, Message, FunctionToRun, ...)
+function Lib:ExecuteSaveSilent(ID, FunctionToRun, ...)
+    if InCombatLockdown() then
+        Lib:ExecuteAfterLockdownSilent(ID, FunctionToRun, ...)
+    else
+        FunctionToRun(...)
+    end
+end
+
+function Lib:ExecuteAfterLockdown(ID, Addon, Message, FunctionToRun, ...)
     if not ExecuteAfterLockdownTimer or ExecuteAfterLockdownTimer.cancelled then
         ExecuteAfterLockdownTimer = ZLib:ScheduleRepeatingTimer(Lib.ExecuteAfterLockdownTimerElapsed, 0.25)
     end
@@ -22,7 +30,8 @@ function Lib:ExecuteAfterLockdown(ID, Message, FunctionToRun, ...)
         -- Cancel
         ExecuteAfterLockdownRunList[ID] = nil
         if Message ~= nil then
-            print(Message .. " Canceled") -- TODO Maybe add LibSink
+            Message = Message .. " Canceled"
+            Addon:Pour(Addon, Message, 0, 1, 0) -- TODO Maybe add LibSink
         end
     else
         -- Dispatch
@@ -32,23 +41,39 @@ function Lib:ExecuteAfterLockdown(ID, Message, FunctionToRun, ...)
         }
         ExecuteAfterLockdownRunList[ID] = FunctionAndParameter
         if Message ~= nil then
-            print(Message .. " after Combat") -- TODO Maybe add LibSink
+            Message = Message .. " after Combat"
+            Addon:Pour(Addon, Message, 0, 1, 0) -- TODO Maybe add LibSink
         end
     end
+end
 
+function Lib:ExecuteAfterLockdownSilent(ID, FunctionToRun, ...)
+    if not ExecuteAfterLockdownTimer or ExecuteAfterLockdownTimer.cancelled then
+        ExecuteAfterLockdownTimer = ZLib:ScheduleRepeatingTimer(Lib.ExecuteAfterLockdownTimerElapsed, 0.25)
+    end
+
+    if ExecuteAfterLockdownRunList[ID] then
+        -- Cancel
+        ExecuteAfterLockdownRunList[ID] = nil
+    else
+        -- Dispatch
+        local FunctionAndParameter = {
+            Function = FunctionToRun,
+            Parameter = ...
+        }
+        ExecuteAfterLockdownRunList[ID] = FunctionAndParameter
+    end
 end
 
 Lib.ExecuteAfterLockdownTimerElapsed = function()
     if not InCombatLockdown() then
         ZLib:CancelTimer(ExecuteAfterLockdownTimer)
-        LibStub("Z-Lib_Debug-1.0"):Debug("Handling after Combat Queue...") -- TODO Maybe add LibSink
         for ID, FunctionAndParameter in pairs(ExecuteAfterLockdownRunList) do
             if FunctionAndParameter then
                 FunctionAndParameter.Function(FunctionAndParameter.Parameter)
                 ExecuteAfterLockdownRunList[ID] = nil
             end
         end
-        LibStub("Z-Lib_Debug-1.0"):Debug("Done!") -- TODO Maybe add LibSink
     end
 end
 

@@ -6,6 +6,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 
 LSM:Register("border", "White Square 1px", [[Interface\AddOns\Z-Lib\Assets\Textures\Border1px.tga]])
 LSM:Register("statusbar", "Sleek", [[Interface\AddOns\Z-Lib\Assets\Textures\SleekTexture.tga]])
+LSM:Register("background", "CircleTransparentBG", [[Interface\AddOns\Z-Lib\Assets\Textures\Circle.blp]])
 
 Lib.CommonStyle = {}
 Lib.CommonStyle.Simple = {

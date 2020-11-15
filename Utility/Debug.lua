@@ -1,3 +1,4 @@
+--- @class ZLib_Debug
 local Lib = LibStub:NewLibrary("Z-Lib_Debug-1.0", 1)
 
 
@@ -46,6 +47,7 @@ function Lib:DebugTableRecursiveFormatted(table)
         for k, v in pairs(table) do
             if type(v) == "table" then
                 depth = depth + 1
+                print("\\/" .. k .. "\\/")
                 Lib:DebugTableRecursiveFormatted(v)
                 depth = depth - 1
             else
